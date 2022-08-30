@@ -14,10 +14,6 @@ get '/' do
   result.each { |x| puts x }
 end
 
-get '/contact/:id' do
-  
-end
-
 def getBody(req)
   req.body.rewind
   JSON.parse(req.body.read)
