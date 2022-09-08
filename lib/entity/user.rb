@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#User class
+# User class
 class User
   attr_accessor :name, :email
 

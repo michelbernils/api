@@ -4,39 +4,53 @@ require 'sinatra'
 require 'mysql2'
 require 'sinatra/json'
 require 'json'
-require_relative '../entity/database'
+require 'byebug'
+require_relative '../storage/mysql2'
 require_relative '../entity/user'
 
 # server.rb
 get '/' do
-  client = Database.new.connect
-  result = client.query("SELECT * FROM AGENDA;")
-  result.each { |x| puts x }
+  database_name = 'agenda'
+  database = Mysql2::Client.new(:host => 'localhost', :username => 'root', :password => '', :database => database_name)
+
+   Mysql2Query.new(database: database, database_name: database_name).getAllUsers
 end
 
-def getBody(req)
-  req.body.rewind
-  JSON.parse(req.body.read)
+post '/create' do
+  database_name = 'agenda'
+
+  database = Mysql2::Client.new(:host => 'localhost', :username => 'root', :password => '', :database => database_name)
+
+  request.body.rewind 
+  body = JSON.parse request.body.read
+  user = User.new(name: body['name'], email: body['email'])
+
+  Mysql2Query.new(database: database, database_name: database_name).add(user.name, user.email)
 end
 
-put '/update-contact' do
-  client = Database.new.connect
-  body = getBody(request)
+put '/update' do
+  database_name = 'agenda'
   id = 1
-  user = User.new(name: body["name"], email: body["email"])
-  result = client.query("UPDATE AGENDA SET NAME = '#{user.name}', EMAIL = '#{user.email}' WHERE ID = #{id};")
+
+  database = Mysql2::Client.new(:host => 'localhost', :username => 'root', :password => '', :database => database_name)
+
+  request.body.rewind 
+  body = JSON.parse request.body.read
+  user = User.new(name: body['name'], email: body['email'])
+
+  # should I pass the id on update function or let it on mysql2.rb
+  Mysql2Query.new(database: database, database_name: database_name).update(user.name, user.email)
 end
 
-post '/create-contact' do
-  client = Database.new.connect
-  body = getBody(request)
-  user = User.new(name: body["name"], email: body["email"])
-  result = client.query("INSERT INTO AGENDA (name, email) VALUES ('#{user.name}', '#{user.email}');")
-end
 
-delete '/delete-contact' do
-  client = Database.new.connect
-  body = getBody(request)
-  user = User.new(name: body["name"], email: body["email"])
-  result = client.query("DELETE FROM AGENDA WHERE NAME = ('#{user.name}');")
+delete '/delete' do
+  database_name = 'agenda'
+
+  database = Mysql2::Client.new(:host => 'localhost', :username => 'root', :password => '', :database => database_name)
+
+  request.body.rewind 
+  body = JSON.parse request.body.read
+  user = User.new(name: body['name'], email: '')
+
+  Mysql2Query.new(database: database, database_name: database_name).delete(user.name)
 end
