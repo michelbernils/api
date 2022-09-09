@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'dotenv'
+Dotenv.load
 require 'sinatra'
 require 'mysql2'
 require 'sinatra/json'
@@ -8,10 +10,11 @@ require 'byebug'
 require_relative '../storage/mysql2'
 require_relative '../entity/user'
 
+
 # server.rb
 get '/' do
   database_name = 'agenda'
-  database = Mysql2::Client.new(:host => 'localhost', :username => 'root', :password => '', :database => database_name)
+  database = Mysql2::Client.new(:host => ENV["DATABASE_HOST"], :username => ENV["DATABASE_USERNAME"], :password => ENV["DATABASE_pwd"], :database => ENV["DATABASE_NAME"])
 
    Mysql2Query.new(database: database, database_name: database_name).getAllUsers
 end
@@ -19,7 +22,7 @@ end
 post '/create' do
   database_name = 'agenda'
 
-  database = Mysql2::Client.new(:host => 'localhost', :username => 'root', :password => '', :database => database_name)
+  database = Mysql2::Client.new(:host => ENV["DATABASE_HOST"], :username => ENV["DATABASE_USERNAME"], :password => ENV["DATABASE_pwd"], :database => ENV["DATABASE_NAME"])
 
   request.body.rewind 
   body = JSON.parse request.body.read
@@ -32,7 +35,7 @@ put '/update' do
   database_name = 'agenda'
   id = 1
 
-  database = Mysql2::Client.new(:host => 'localhost', :username => 'root', :password => '', :database => database_name)
+  database = Mysql2::Client.new(:host => ENV["DATABASE_HOST"], :username => ENV["DATABASE_USERNAME"], :password => ENV["DATABASE_pwd"], :database => ENV["DATABASE_NAME"])
 
   request.body.rewind 
   body = JSON.parse request.body.read
@@ -46,7 +49,7 @@ end
 delete '/delete' do
   database_name = 'agenda'
 
-  database = Mysql2::Client.new(:host => 'localhost', :username => 'root', :password => '', :database => database_name)
+  database = Mysql2::Client.new(:host => ENV["DATABASE_HOST"], :username => ENV["DATABASE_USERNAME"], :password => ENV["DATABASE_PWD"], :database => ENV["DATABASE_NAME"])
 
   request.body.rewind 
   body = JSON.parse request.body.read
