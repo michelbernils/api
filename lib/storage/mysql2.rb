@@ -9,7 +9,7 @@ require_relative '../storage/mysql2'
 require_relative '../entity/user'
 
 #Database class
-class Mysql2Query
+class MySql2
   attr_accessor :database, :database_name
 
   def initialize(database:, database_name:)
@@ -17,18 +17,18 @@ class Mysql2Query
     @database_name = database_name
   end
 
-  def getAllUsers
-    @database.query("SELECT * FROM #{@database_name};")
+  def read
+    database.query("SELECT * FROM #{@database_name};")
   end
   
-  def add(name, email)
-    @database.query("INSERT INTO #{@database_name} (name, email) VALUES ('#{name}', '#{email}');")
+  def create(name, email)
+    database.query("INSERT INTO #{@database_name} (name, email) VALUES ('#{name}', '#{email}');")
   end
 
   def update(name, email)
-    id = '5'
+    id = '7'
 
-    @database.query("UPDATE #{database_name} SET NAME = '#{name}', EMAIL = '#{email}' WHERE ID = #{id};")
+    database.query("UPDATE #{database_name} SET NAME = '#{name}', EMAIL = '#{email}' WHERE ID = #{id};")
   end
 
   def delete(name)
