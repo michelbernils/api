@@ -16,13 +16,13 @@ require_relative '../config_manager'
 
 # server.rb
 get '/' do
-  config_manager = ConfigManager.new(storage_type: 'mongodb')
+  config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
   AgendaRepository.new(storage_client: config_manager.storage_client).read
 end
 
 post '/create' do
-  config_manager = ConfigManager.new(storage_type: 'mongodb')
+  config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
   request.body.rewind 
   body = JSON.parse request.body.read
@@ -32,17 +32,17 @@ post '/create' do
 end
 
 put '/update' do
-  config_manager = ConfigManager.new(storage_type: 'mongodb')
+  config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
   request.body.rewind 
   body = JSON.parse request.body.read
   user = User.new(name: body['name'], email: body['email'])
-
-  UserRepository.new(storage_client: config_manager.storage_client).update(user.name, user.email)
+  id = body['id']
+  UserRepository.new(storage_client: config_manager.storage_client).update(id, user.name, user.email)
 end
 
 delete '/delete' do
-  config_manager = ConfigManager.new(storage_type: 'mongodb')
+  config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
   request.body.rewind 
   body = JSON.parse request.body.read

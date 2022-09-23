@@ -25,9 +25,7 @@ class MySql2
     database.query("INSERT INTO #{@database_name} (name, email) VALUES ('#{name}', '#{email}');")
   end
 
-  def update(name, email)
-    id = '7'
-
+  def update(id, name, email)
     database.query("UPDATE #{database_name} SET NAME = '#{name}', EMAIL = '#{email}' WHERE ID = #{id};")
   end
 

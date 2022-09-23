@@ -28,9 +28,8 @@ class Mongodb
     collection.insert_one(doc)
   end
 
-  def update(name, email)
+  def update(id, name, email)
     collection = client[:user]
-    id = "6320ec449d3c37551931dccb"
     collection.update_one({:_id => BSON::ObjectId.from_string(id)}, '$set' => {:name => name})
     collection.update_one({:_id => BSON::ObjectId.from_string(id)}, '$set' => {:email => email})
   end

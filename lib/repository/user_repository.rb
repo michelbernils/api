@@ -20,8 +20,8 @@ class UserRepository
     User.new(name: name, email: email)
   end
 
-  def update(name, email)
-    storage_client.update(name, email)
+  def update(id, name, email)
+    storage_client.update(id, name, email)
 
     User.new(name: name, email: email)
   end
