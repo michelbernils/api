@@ -10,8 +10,16 @@ class UserRepository
     @storage_client = storage_client
   end
 
+  def start(name)
+    storage_client.start(name)
+  end
+
   def read
     storage_client.read
+  end
+
+  def search(name)
+    storage_client.search(name)
   end
 
   def create(name, email)

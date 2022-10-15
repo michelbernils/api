@@ -21,6 +21,16 @@ get '/' do
   AgendaRepository.new(storage_client: config_manager.storage_client).read
 end
 
+post '/create-database' do
+  config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
+
+  request.body.rewind 
+  body = JSON.parse request.body.read
+  agenda = Agenda.new(database_name: body['database_name'])
+
+  AgendaRepository.new(storage_client: config_manager.storage_client).start(agenda.database_name)
+end
+
 post '/create' do
   config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
@@ -29,6 +39,16 @@ post '/create' do
   user = User.new(name: body['name'], email: body['email'])
 
   UserRepository.new(storage_client: config_manager.storage_client).create(user.name, user.email)
+end
+
+post '/search' do
+  config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
+
+  request.body.rewind 
+  body = JSON.parse request.body.read
+  user = User.new(name: body['name'], email: '')
+
+  UserRepository.new(storage_client: config_manager.storage_client).search(user.name)
 end
 
 put '/update' do

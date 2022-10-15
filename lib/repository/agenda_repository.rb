@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../entity/user'
+require_relative '../entity/agenda'
 require_relative '../storage/mysql2'
 require_relative '../storage/mongodb'
 require_relative '../storage/mysql2'
@@ -16,5 +17,9 @@ class AgendaRepository
 
   def read
     storage_client.read
+  end
+
+  def start(name)
+    storage_client.start(name)
   end
 end

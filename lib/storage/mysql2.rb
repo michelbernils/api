@@ -7,6 +7,7 @@ require 'json'
 require_relative '../api/server'
 require_relative '../storage/mysql2'
 require_relative '../entity/user'
+require_relative '../entity/agenda'
 
 #Database class
 class MySql2
@@ -17,16 +18,30 @@ class MySql2
     @database_name = database_name
   end
 
+  def start(database_name)
+    database.query("CREATE DATABASE #{database_name}")
+    database.query("CREATE TABLE #{database_name} (
+      `id` INT NOT NULL AUTO_INCREMENT,
+      `name` CHAR(100),
+      `email` CHAR(100),
+      PRIMARY KEY (`id`)
+    );")
+  end
+
   def read
     database.query("SELECT * FROM #{@database_name};")
   end
   
+  def search(name)
+    database.query("SELECT * FROM #{@database_name} WHERE NAME = '#{name}';")
+  end
+
   def create(name, email)
     database.query("INSERT INTO #{@database_name} (name, email) VALUES ('#{name}', '#{email}');")
   end
 
   def update(id, name, email)
-    database.query("UPDATE #{database_name} SET NAME = '#{name}', EMAIL = '#{email}' WHERE ID = #{id};")
+    database.query("UPDATE #{@database_name} SET NAME = '#{name}', EMAIL = '#{email}' WHERE ID = #{id};")
   end
 
   def delete(name)
