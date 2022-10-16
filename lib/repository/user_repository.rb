@@ -22,14 +22,14 @@ class UserRepository
     storage_client.search(name)
   end
 
-  def create(name, email)
-    storage_client.create(name, email)
+  def create(category, name, email)
+    storage_client.create(category, name, email)
 
     User.new(name: name, email: email)
   end
 
-  def update(id, name, email)
-    storage_client.update(id, name, email)
+  def update(id, category, name, email)
+    storage_client.update(id, category, name, email)
 
     User.new(name: name, email: email)
   end

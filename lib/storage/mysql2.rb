@@ -22,6 +22,7 @@ class MySql2
     database.query("CREATE DATABASE #{database_name}")
     database.query("CREATE TABLE #{database_name} (
       `id` INT NOT NULL AUTO_INCREMENT,
+      `category` CHAR(100),
       `name` CHAR(100),
       `email` CHAR(100),
       PRIMARY KEY (`id`)
@@ -36,12 +37,12 @@ class MySql2
     database.query("SELECT * FROM #{@database_name} WHERE NAME = '#{name}';")
   end
 
-  def create(name, email)
-    database.query("INSERT INTO #{@database_name} (name, email) VALUES ('#{name}', '#{email}');")
+  def create(category, name, email)
+    database.query("INSERT INTO #{@database_name} (category, name, email) VALUES ('#{category}', '#{name}', '#{email}');")
   end
 
-  def update(id, name, email)
-    database.query("UPDATE #{@database_name} SET NAME = '#{name}', EMAIL = '#{email}' WHERE ID = #{id};")
+  def update(id, category, name, email)
+    database.query("UPDATE #{@database_name} SET CATEGORY = '#{category}', NAME = '#{name}', EMAIL = '#{email}' WHERE ID = #{id};")
   end
 
   def delete(name)

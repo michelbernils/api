@@ -15,33 +15,35 @@ require_relative '../repository/user_repository'
 require_relative '../config_manager'
 
 # server.rb
-get '/' do
+
+post '/create' do
+  config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
+  
+  request.body.rewind 
+  body = JSON.parse request.body.read
+  agenda = Agenda.new(database_name: body['database_name'])
+  
+  AgendaRepository.new(storage_client: config_manager.storage_client).start(agenda.database_name)
+end
+
+get '/agenda' do
   config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
   AgendaRepository.new(storage_client: config_manager.storage_client).read
 end
 
-post '/create-database' do
-  config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
-
-  request.body.rewind 
-  body = JSON.parse request.body.read
-  agenda = Agenda.new(database_name: body['database_name'])
-
-  AgendaRepository.new(storage_client: config_manager.storage_client).start(agenda.database_name)
-end
-
-post '/create' do
+post '/agenda/create' do
   config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
   request.body.rewind 
   body = JSON.parse request.body.read
   user = User.new(name: body['name'], email: body['email'])
+  category = body['category']
 
-  UserRepository.new(storage_client: config_manager.storage_client).create(user.name, user.email)
+  UserRepository.new(storage_client: config_manager.storage_client).create(category, user.name, user.email)
 end
 
-post '/search' do
+post '/agenda/search' do
   config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
   request.body.rewind 
@@ -51,17 +53,19 @@ post '/search' do
   UserRepository.new(storage_client: config_manager.storage_client).search(user.name)
 end
 
-put '/update' do
+put '/agenda/update' do
   config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
   request.body.rewind 
   body = JSON.parse request.body.read
   user = User.new(name: body['name'], email: body['email'])
   id = body['id']
-  UserRepository.new(storage_client: config_manager.storage_client).update(id, user.name, user.email)
+  category = body['category']
+
+  UserRepository.new(storage_client: config_manager.storage_client).update(id, category, user.name, user.email)
 end
 
-delete '/delete' do
+delete '/agenda/delete' do
   config_manager = ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
 
   request.body.rewind 
