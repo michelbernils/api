@@ -16,10 +16,6 @@ class Mongodb
     @database_name = database_name
   end
 
-  def start(database_name)
-    :not_implemented
-  end
-
   def read
     collection = client[:user]
     collection.find({})

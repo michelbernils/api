@@ -5,7 +5,8 @@
 ### Technology used on this project:
 1. [Sinatra](https://github.com/sinatra/sinatra)
 1. [Mysql2](https://github.com/brianmario/mysql2)
-2. [Dotenv](https://github.com/bkeepers/dotenv)
+1. [Mongodb](https://github.com/mongodb/mongo-ruby-driver)
+1. [Dotenv](https://github.com/bkeepers/dotenv)
 
 ### With this aplication you can:
 1. Create any agenda type you want.
@@ -13,16 +14,21 @@
 1. Update a contact.
 1. Delete a contact.
 
-### How to start the databese:
-##### TODO: add a database.sh to automatically do this.
+### How to start the MySQL:
 
 first of all we need to create our ```.env```. Place it on the same folder as the ```server.rb```. Here is an ```.env``` exemple:
 
 ```
-DATABASE_HOST=localhost
-DATABASE_USERNAME=root
-DATABASE_PWD=
-DATABASE_NAME=AGENDA
+DATABASE_STORAGE_TYPE=mongodb
+
+DATABASE_HOST_MYSQL2=localhost
+DATABASE_USERNAME_MYSQL2=root
+DATABASE_PWD_MYSQL2=
+DATABASE_NAME_MYSQL2=AGENDA
+
+DATABASE_HOST_MONGODB=127.0.0.1:27017
+DATABASE_NAME_MONGODB=agenda
+DATABASE_COLLECTION_NAME_MONGODB=user
 ```
 
 with our .env file created we are safe to continue.
@@ -49,6 +55,10 @@ CREATE TABLE `agenda` (
 	PRIMARY KEY (`id`)
 );
 ````
+
+### How to start the Mongodb:
+
+
 
 go to ```../lib/api/server.rb``` and run ```ruby server.rb``` you will see your aplication running on http://127.0.0.1:4567 port.
 
