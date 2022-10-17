@@ -30,16 +30,17 @@ class Mongodb
     collection.find({"name": name})
   end
 
-  def create(name, email)
+  def create(category, name, email)
     collection = client[:user]
     
-    doc = {name: name, email: email}
+    doc = {category: category, name: name, email: email}
     collection.insert_one(doc)
   end
 
-  def update(id, name, email)
+  def update(id, category, name, email)
     collection = client[:user]
     collection.update_one({:_id => BSON::ObjectId.from_string(id)}, '$set' => {:name => name})
+    collection.update_one({:_id => BSON::ObjectId.from_string(id)}, '$set' => {:category => category})
     collection.update_one({:_id => BSON::ObjectId.from_string(id)}, '$set' => {:email => email})
   end
 

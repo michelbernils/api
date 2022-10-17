@@ -18,17 +18,6 @@ class MySql2
     @database_name = database_name
   end
 
-  def start(database_name)
-    database.query("CREATE DATABASE #{database_name}")
-    database.query("CREATE TABLE #{database_name} (
-      `id` INT NOT NULL AUTO_INCREMENT,
-      `category` CHAR(100),
-      `name` CHAR(100),
-      `email` CHAR(100),
-      PRIMARY KEY (`id`)
-    );")
-  end
-
   def read
     database.query("SELECT * FROM #{@database_name};")
   end
