@@ -29,4 +29,10 @@ class ConfigManager
       :error
     end
   end
+
+  private
+
+  def config_manager
+    @config_manager ||= ConfigManager.new(storage_type: ENV["DATABASE_STORAGE_TYPE"])
+  end
 end

@@ -22,4 +22,10 @@ class AgendaRepository
   def start(name)
     storage_client.start(name)
   end
+
+  private
+
+  def agenda_repository
+    @agenda_repository ||= AgendaRepository.new(storage_client: config_manager.storage_client)
+  end
 end

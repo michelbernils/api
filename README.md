@@ -14,7 +14,7 @@
 1. Update a contact.
 1. Delete a contact.
 
-### How to start the MySQL:
+### How to create and start MySQL:
 
 first of all we need to create our ```.env```. Place it on the same folder as the ```server.rb```. Here is an ```.env``` exemple:
 
@@ -55,10 +55,6 @@ CREATE TABLE `agenda` (
 	PRIMARY KEY (`id`)
 );
 ````
-
-### How to start the Mongodb:
-
-
 
 go to ```../lib/api/server.rb``` and run ```ruby server.rb``` you will see your aplication running on http://127.0.0.1:4567 port.
 

@@ -37,4 +37,10 @@ class UserRepository
   def delete(name)
     storage_client.delete(name)
   end
+
+  private 
+
+  def user_repository
+    @user_repository ||= UserRepository.new(storage_client: config_manager.storage_client)
+  end
 end
