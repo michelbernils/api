@@ -22,8 +22,8 @@ class MySql2
     database.query("SELECT * FROM #{@database_name};")
   end
   
-  def search(name)
-    database.query("SELECT * FROM #{@database_name} WHERE NAME = '#{name}';")
+  def search(id)
+    database.query("SELECT * FROM #{@database_name} WHERE ID = '#{id}';")
   end
 
   def create(category, name, email)
@@ -34,7 +34,7 @@ class MySql2
     database.query("UPDATE #{@database_name} SET CATEGORY = '#{category}', NAME = '#{name}', EMAIL = '#{email}' WHERE ID = #{id};")
   end
 
-  def delete(name)
-    database.query("DELETE FROM AGENDA WHERE NAME = ('#{name}');")
+  def delete(id)
+    database.query("DELETE FROM AGENDA WHERE ID = ('#{id}');")
   end
 end

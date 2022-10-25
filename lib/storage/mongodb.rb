@@ -21,9 +21,9 @@ class Mongodb
     collection.find({})
   end
 
-  def search(name)
+  def search(id)
     collection = client[:user]
-    collection.find({"name": name})
+    collection.delete_one("id": BSON::ObjectId.from_string(id))
   end
 
   def create(category, name, email)
@@ -40,8 +40,8 @@ class Mongodb
     collection.update_one({:_id => BSON::ObjectId.from_string(id)}, '$set' => {:email => email})
   end
 
-  def delete(name)
+  def delete(id)
     collection = client[:user]
-    collection.delete_one("name": name)
+    collection.delete_one("id": BSON::ObjectId.from_string(id))
   end
 end

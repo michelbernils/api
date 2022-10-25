@@ -14,13 +14,23 @@ require_relative '../repository/agenda_repository'
 require_relative '../repository/user_repository'
 require_relative '../config_manager'
 
-# server.rb
 
-get '/' do
+# PUT /user/:id => Atualiza user de :id  
+# POST /user => Cria (done)
+# GET /user => todos users retorna (não funciona)
+# GET /user/:id => retorna o user de :id 
+# DELETE /user/:id => exclui o user de :id
+
+# 1) retorna um todos os users (funcionando)
+get '/user' do
   agenda_repository.read
 end
 
-post '/agenda/create' do
+get '/user/:id' do
+  user_repository.search(params[:id])
+end
+
+post '/user' do
   request.body.rewind 
   body = JSON.parse request.body.read
   user = User.new(name: body['name'], email: body['email'])
@@ -29,30 +39,18 @@ post '/agenda/create' do
   user_repository.create(category, user.name, user.email)
 end
 
-post '/agenda/search' do
-  request.body.rewind 
-  body = JSON.parse request.body.read
-  user = User.new(name: body['name'], email: '')
-
-  user_repository.search(user.name)
+delete '/user/:id' do
+  user_repository.delete(params[:id])
 end
 
-put '/agenda/update' do
+# 5) atualiza 
+put '/user/:id' do
   request.body.rewind 
   body = JSON.parse request.body.read
   user = User.new(name: body['name'], email: body['email'])
-  id = body['id']
   category = body['category']
-
-
-  user_repository.update(id, category, user.name, user.email)
-end
-
-delete '/agenda/delete' do
-  request.body.rewind 
-  body = JSON.parse request.body.read
-  user = User.new(name: body['name'], email: '')
-  user_repository.delete(user.name)
+  
+  user_repository.update(params[:id], category, user.name, user.email)
 end
 
 private 
