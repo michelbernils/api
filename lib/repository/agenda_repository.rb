@@ -15,8 +15,8 @@ class AgendaRepository
     @storage_client = storage_client
   end
 
-  def read
-    storage_client.read
+  def get_all
+    storage_client.get_all
   end
 
   def start(name)

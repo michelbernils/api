@@ -18,7 +18,7 @@ class MySql2
     @database_name = database_name
   end
 
-  def read
+  def get_all
     database.query("SELECT * FROM #{@database_name};")
   end
   

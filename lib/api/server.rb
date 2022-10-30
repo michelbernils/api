@@ -14,16 +14,8 @@ require_relative '../repository/agenda_repository'
 require_relative '../repository/user_repository'
 require_relative '../config_manager'
 
-
-# PUT /user/:id => Atualiza user de :id  
-# POST /user => Cria (done)
-# GET /user => todos users retorna (não funciona)
-# GET /user/:id => retorna o user de :id 
-# DELETE /user/:id => exclui o user de :id
-
-# 1) retorna um todos os users (funcionando)
 get '/user' do
-  agenda_repository.read
+  agenda_repository.get_all
 end
 
 get '/user/:id' do
@@ -43,7 +35,6 @@ delete '/user/:id' do
   user_repository.delete(params[:id])
 end
 
-# 5) atualiza 
 put '/user/:id' do
   request.body.rewind 
   body = JSON.parse request.body.read

@@ -16,7 +16,7 @@ class Mongodb
     @database_name = database_name
   end
 
-  def read
+  def get_all
     collection = client[:user]
     collection.find({})
   end

@@ -14,8 +14,8 @@ class UserRepository
     storage_client.start(name)
   end
 
-  def read
-    storage_client.read
+  def get_all
+    storage_client.get_all
   end
 
   def search(name)
