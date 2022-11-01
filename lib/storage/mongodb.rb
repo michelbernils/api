@@ -23,7 +23,7 @@ class Mongodb
 
   def search(id)
     collection = client[:user]
-    collection.delete_one("id": BSON::ObjectId.from_string(id))
+    collection.find("id": BSON::ObjectId.from_string(id))
   end
 
   def create(category, name, email)
@@ -42,6 +42,6 @@ class Mongodb
 
   def delete(id)
     collection = client[:user]
-    collection.delete_one("id": BSON::ObjectId.from_string(id))
+    collection.delete_one({:_id => BSON::ObjectId.from_string(id)})
   end
 end
